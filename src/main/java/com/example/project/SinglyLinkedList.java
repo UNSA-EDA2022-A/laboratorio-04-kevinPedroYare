@@ -100,17 +100,55 @@ public class SinglyLinkedList<T> {
 
     // Elimina aquellos nodos de la lista que esten duplicados
     public void deleteDuplicates() {
-
+        if (isEmpty())
+            return;
+        Node<T> cur = first;
+        Node<T> aux = cur;
+        for(; cur != null; cur = cur.getNext()) {
+            for(aux = cur.getNext(); aux != null; aux = aux.getNext()){
+                if(cur.getValue().compareTo(aux.getValue()) == 0){
+                    cur.setNext(aux.getNext());
+                    size--;
+                }
+            }
+        }
     }
 
     // Inserta un nuevo nodo en una posicion especifica de la lista
     public void insertNth(T data, int position) {
-
+        if(isEmpty() || position < 0 || position > size + 1)
+            return;
+        if (position == 0) {
+            addFirst(data);
+        } else if (position == size + 1) {
+            addLast(data); 
+        } else {
+            Node<T> cur = first;
+            for (int i = 0; i < position - 1; i++) {
+                cur = cur.getNext();
+            }
+            Node<T> newNode = new Node<T>(data, cur.getNext());
+            cur.setNext(newNode);
+            size++;
+        }
     }
 
     // Elimina el nodo de una posicion especifica de la lista
     public void deleteNth(int position) {
-
+        if(isEmpty()|| position < 0 || position > size)
+            return;
+        if (position == 0) {
+            removeFirst();
+        } else if (position == size - 1) {
+            removeLast();
+        } else{
+            Node<T> cur = first;
+            for (int i = 0; i < position - 1; i++) {
+                cur = cur.getNext();
+            }
+            cur.setNext(cur.getNext().getNext());
+            size--;
+        }
     }
 
     public static void main(final String[] args) {
